@@ -1,0 +1,24 @@
+pkgbase = freefilesync-ubuntu
+	pkgdesc = Backup software to synchronize files and folders
+	pkgver = 9.9
+	pkgrel = 1
+	url = http://www.freefilesync.org/
+	arch = x86_64
+	license = GPL3
+	depends = gtk2
+	depends = libsm
+	provides = freefilesync
+	conflicts = freefilesync
+	source = FreeFileSync_9.9_Ubuntu_17.10_64-bit.tar.gz::https://www.freefilesync.org/download_redirect.php?file=FreeFileSync_9.9_Ubuntu_17.10_64-bit.tar.gz
+	source = FreeFileSync.desktop
+	source = ffsicon.png
+	source = RealTimeSync.desktop
+	source = rtsicon.png
+	sha256sums = 7986b4ddad50a8668673ae8ccc27e0b3409af9fb7a095435a1f7a89ad97707fe
+	sha256sums = b381bb9dbda25c3c08a67f18072a2761abe34339ddf3318e1758eb7c349f1a3b
+	sha256sums = 31df3fa1f1310de14bbd379f891d4f8ed2df5b0d68913eb52c88b3be682933fb
+	sha256sums = 1502efdbf1638856a18ab9916e0431bf6a53471792cb2daa380345bac33f67c4
+	sha256sums = f28042587dbe99cf5d6bef2c1be4b026488e418e4ba8332b3016d246b7053a4e
+
+pkgname = freefilesync-ubuntu
+
