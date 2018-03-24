@@ -1,0 +1,58 @@
+_release='2015'
+_service_pack='1'
+_short_release="${_release:2:4}"
+pkgname=("labview-${_release}-rte")
+pkgver="SP${_service_pack}"
+pkgrel=1
+pkgdesc='Run-Time Engine for LabVIEW by National Instruments.'
+url="http://www.ni.com/labview/release-archive/${_release}/"
+arch=('x86_64') # This will likely work on i686, but I have not tested it.
+license=("custom")
+makedepends=('patchelf')
+depends=(libxt libglvnd libxinerama)
+optdepends=(lib32-libxt lib32-libglvnd lib32-libxinerama)
+provides=('labview-2015-rte'
+'lib32-labview-2015-rte')
+source=("http://ftp.ni.com/support/softlib/labview/labview_runtime/${_release}%20SP${_service_pack}/Linux/f10/LabVIEW${_release}SP${_service_pack}RTE_Linux.tgz")
+md5sums=('2cf3e918ba7ab2142b90bf8e8f041172')
+
+
+prepare() {
+  find "${srcdir}" -name "${pkgname}"'*.rpm' -exec bsdtar -xf {} -C "${srcdir}" \;
+}
+
+package() {
+  mkdir -p "${pkgdir}"/usr/lib
+  mkdir -p "${pkgdir}"/usr/lib32
+  cp -r "${srcdir}"/usr/local/lib/* "${pkgdir}/usr/lib32"
+  cp -r "${srcdir}"/usr/local/lib64/* "${pkgdir}/usr/lib"
+
+  ln -s  LabVIEW-2015/liblvrt.so.${_short_release}.0.${_service_pack} "${pkgdir}"/usr/lib32/liblvrt.so.${_short_release}
+  ln -s  LabVIEW-2015/liblvrtdark.so.${_short_release}.0.${_service_pack} "${pkgdir}"/usr/lib32/liblvrtdark.so.${_short_release}
+  ln -s liblvrt.so.${_short_release} "${pkgdir}"/usr/lib32/liblvrt.so
+  ln -s liblvrtdark.so.${_short_release} "${pkgdir}"/usr/lib32/liblvrtdark.so
+
+  ln -s  LabVIEW-2015-64/liblvrt.so.${_short_release}.0.${_service_pack} "${pkgdir}"/usr/lib/liblvrt.so.${_short_release}
+  ln -s  LabVIEW-2015-64/liblvrtdark.so.${_short_release}.0.${_service_pack} "${pkgdir}"/usr/lib/liblvrtdark.so.${_short_release}
+  ln -s liblvrt.so.${_short_release} "${pkgdir}"/usr/lib/liblvrt.so
+  ln -s liblvrtdark.so.${_short_release} "${pkgdir}"/usr/lib/liblvrtdark.so
+
+  patchelf --remove-rpath "${pkgdir}"/usr/lib32/LabVIEW-2015/liblvrt.so.${_short_release}.0.${_service_pack}
+  patchelf --remove-rpath "${pkgdir}"/usr/lib32/LabVIEW-2015/liblvrtdark.so.${_short_release}.0.${_service_pack}
+  patchelf --remove-rpath "${pkgdir}"/usr/lib32/LabVIEW-2015/lvanlys.so
+  patchelf --remove-rpath "${pkgdir}"/usr/lib32/LabVIEW-2015/lvblas.so
+  patchelf --remove-rpath "${pkgdir}"/usr/lib32/LabVIEW-2015/DOMUserDefRef.so
+  patchelf --remove-rpath "${pkgdir}"/usr/lib/LabVIEW-2015-64/liblvrt.so.${_short_release}.0.${_service_pack}
+  patchelf --remove-rpath "${pkgdir}"/usr/lib/LabVIEW-2015-64/liblvrtdark.so.${_short_release}.0.${_service_pack}
+  patchelf --remove-rpath "${pkgdir}"/usr/lib/LabVIEW-2015-64/lvanlys.so
+  patchelf --remove-rpath "${pkgdir}"/usr/lib/LabVIEW-2015-64/lvblas.so
+  patchelf --remove-rpath "${pkgdir}"/usr/lib/LabVIEW-2015-64/DOMUserDefRef.so
+
+  # Using out of date certificates is a horrible idea.
+  cp /etc/ca-certificates/extracted/ca-bundle.trust.crt "${pkgdir}/usr/lib/LabVIEW-${_release}-64/ca-bundle.crt"
+  cp /etc/ca-certificates/extracted/ca-bundle.trust.crt "${pkgdir}/usr/lib32/LabVIEW-${_release}/ca-bundle.crt"
+
+  install -D -m644 "${srcdir}"/LICENSE.txt "${pkgdir}"/usr/share/licenses/${pkgname}/LICENSE
+}
+
+# vim:set et sw=2 sts=2 tw=80:

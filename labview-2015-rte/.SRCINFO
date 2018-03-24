@@ -1,0 +1,21 @@
+pkgbase = labview-2015-rte
+	pkgdesc = Run-Time Engine for LabVIEW by National Instruments.
+	pkgver = SP1
+	pkgrel = 1
+	url = http://www.ni.com/labview/release-archive/2015/
+	arch = x86_64
+	license = custom
+	makedepends = patchelf
+	depends = libxt
+	depends = libglvnd
+	depends = libxinerama
+	optdepends = lib32-libxt
+	optdepends = lib32-libglvnd
+	optdepends = lib32-libxinerama
+	provides = labview-2015-rte
+	provides = lib32-labview-2015-rte
+	source = http://ftp.ni.com/support/softlib/labview/labview_runtime/2015%20SP1/Linux/f10/LabVIEW2015SP1RTE_Linux.tgz
+	md5sums = 2cf3e918ba7ab2142b90bf8e8f041172
+
+pkgname = labview-2015-rte
+
