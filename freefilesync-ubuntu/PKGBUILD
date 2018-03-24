@@ -1,3 +1,4 @@
+# Maintainer: t-onoz <t [dot] t [dot] onozuka [dot] 1990 [at] gmail [dot] com>
 pkgname=freefilesync-ubuntu
 pkgver=9.9
 pkgrel=1
@@ -10,12 +11,12 @@ provides=('freefilesync')
 conflicts=('freefilesync')
 
 source=(
-	"FreeFileSync_${pkgver}_Ubuntu_17.10_64-bit.tar.gz::https://www.freefilesync.org/download_redirect.php?file=FreeFileSync_${pkgver}_Ubuntu_17.10_64-bit.tar.gz"
-	FreeFileSync.desktop
-	ffsicon.png
-	RealTimeSync.desktop
-	rtsicon.png
-	)
+  "FreeFileSync_${pkgver}_Ubuntu_17.10_64-bit.tar.gz::https://www.freefilesync.org/download_redirect.php?file=FreeFileSync_${pkgver}_Ubuntu_17.10_64-bit.tar.gz"
+  FreeFileSync.desktop
+  ffsicon.png
+  RealTimeSync.desktop
+  rtsicon.png
+)
 
 sha256sums=('7986b4ddad50a8668673ae8ccc27e0b3409af9fb7a095435a1f7a89ad97707fe'
             'b381bb9dbda25c3c08a67f18072a2761abe34339ddf3318e1758eb7c349f1a3b'
@@ -26,28 +27,29 @@ sha256sums=('7986b4ddad50a8668673ae8ccc27e0b3409af9fb7a095435a1f7a89ad97707fe'
 DLAGENTS=('https::/usr/bin/curl -fLC - --retry 3 --retry-delay 3 -A Mozilla -o %o %u')
 
 package() {
-    _bindir="${pkgdir}"/usr/bin
-    _appname="FreeFileSync"
-    _appsharedir="${pkgdir}"/usr/share/${_appname}
-    _docsharedir="${pkgdir}"/usr/share/doc/${_appname}
+  _bindir="${pkgdir}"/usr/bin
+  _appname="FreeFileSync"
+  _appsharedir="${pkgdir}"/usr/share/${_appname}
+  _docsharedir="${pkgdir}"/usr/share/doc/${_appname}
 
-	mkdir -p "${_bindir}"
-	cp "${srcdir}"/${_appname}/{FreeFile,RealTime}Sync "${_bindir}"
+  mkdir -p "${_bindir}"
+  cp "${srcdir}"/${_appname}/{FreeFile,RealTime}Sync "${_bindir}"
 
-	mkdir -p "${_appsharedir}"
-	cp -R "${srcdir}"/${_appname}/Languages/ \
-        "${srcdir}"/${_appname}/Help/ \
-        "${srcdir}"/${_appname}/ding.wav \
-        "${srcdir}"/${_appname}/gong.wav \
-        "${srcdir}"/${_appname}/harp.wav \
-        "${srcdir}"/${_appname}/Resources.zip \
-        "${_appsharedir}"
+  mkdir -p "${_appsharedir}"
+  cp -R "${srcdir}"/${_appname}/Languages/ \
+    "${srcdir}"/${_appname}/Help/ \
+    "${srcdir}"/${_appname}/ding.wav \
+    "${srcdir}"/${_appname}/gong.wav \
+    "${srcdir}"/${_appname}/harp.wav \
+    "${srcdir}"/${_appname}/Resources.zip \
+    "${_appsharedir}"
 
-	mkdir -p ${_docsharedir}
-	cp "${srcdir}"/${_appname}/CHANGELOG "${_docsharedir}"/changelog
+  mkdir -p ${_docsharedir}
+  cp "${srcdir}"/${_appname}/CHANGELOG "${_docsharedir}"/changelog
 
-    install -Dm644 "${srcdir}"/FreeFileSync.desktop $pkgdir/usr/share/applications/FreeFileSync.desktop
-    install -Dm644 "${srcdir}"/ffsicon.png $pkgdir/usr/share/pixmaps/ffsicon.png
-    install -Dm644 "${srcdir}"/RealTimeSync.desktop $pkgdir/usr/share/applications/RealTimeSync.desktop
-    install -Dm644 "${srcdir}"/rtsicon.png $pkgdir/usr/share/pixmaps/rtsicon.png
+  install -Dm644 "${srcdir}"/FreeFileSync.desktop $pkgdir/usr/share/applications/FreeFileSync.desktop
+  install -Dm644 "${srcdir}"/ffsicon.png $pkgdir/usr/share/pixmaps/ffsicon.png
+  install -Dm644 "${srcdir}"/RealTimeSync.desktop $pkgdir/usr/share/applications/RealTimeSync.desktop
+  install -Dm644 "${srcdir}"/rtsicon.png $pkgdir/usr/share/pixmaps/rtsicon.png
 }
+# vim:set ts=2 sw=2 et:
