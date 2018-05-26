@@ -11,4 +11,4 @@ CUSTOM_BOOTOPTIONS=""
 # BASE_DIR=""
 # If your boot directory on the same partition as your root directory:
 # BASE_DIR="/boot"
-BASE_DIR=""
+BASE_DIR="/boot"
