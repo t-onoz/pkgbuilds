@@ -1,0 +1,13 @@
+[Desktop Entry]
+Name=Viqo
+Comment=Cross-platform "Nico Nama" comment viewer
+Exec=viqo
+NoDisplay=false
+Terminal=0
+TerminalOptions=
+Type=Application
+Icon=/usr/share/pixmaps/viqo.svg
+Categories=Network;
+StartupNotify=true
+X-KDE-SubstituteUID=false
+X-KDE-Username=

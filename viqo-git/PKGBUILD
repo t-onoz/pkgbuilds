@@ -1,27 +1,26 @@
 # Maintainer: Tomoki Imai <tomo832@gmail.com>
 pkgname=viqo-git
-pkgver=v2.3.2.r1.g532dbda
+pkgver=v2.3.3.r9.g051835c
 pkgdesc="Viqo is a cross-platform \"Nico Nama\" comment viewer."
 arch=('i686' 'x86_64')
 url="https://github.com/diginatu/Viqo"
 license=('MIT')
-groups=()
 depends=('qt5-base')
 makedepends=('git' 'gcc')
-optdepends=()
-provides=()
-conflicts=()
-replaces=()
-backup=()
-options=()
-install=
-changelog=
 
-source=("$pkgname"::'git://github.com/diginatu/Viqo.git')
-md5sums=('SKIP')
+source=("$pkgname"::'git://github.com/diginatu/Viqo.git'
+'openssl.patch'
+'viqo.desktop')
+md5sums=('SKIP'
+         '1d955d43ede061cf7bb0b79deeea0ddb'
+         '13b410896c053eafd39029fa07687566')
 pkgrel=1
 
 
+prepare() {
+  cd "$srcdir/$pkgname"
+  patch -p1 -i "$srcdir/openssl.patch"
+}
 
 pkgver() {
   cd "$srcdir/$pkgname"
@@ -40,5 +39,7 @@ package() {
   # I don't know why, but it does nothing.
   # make PREFIX=/usr DESTDIR="$pkgdir" install
   install -Dm755 "$srcdir/$pkgname/viqo" "$pkgdir/usr/bin/viqo"
-  install -Dm644 "$srcdir/$pkgname/img/icon.svg" "$pkgdir/usr/share/pixmaps/icon.png"
+  install -Dm644 "$srcdir/$pkgname/img/icon.svg" "$pkgdir/usr/share/pixmaps/viqo.svg"
+  install -Dm644 "$srcdir/viqo.desktop" "$pkgdir/usr/share/applications/viqo.desktop"
+  install -Dm644 "$srcdir/$pkgname/LICENSE" "$pkgdir/usr/share/licenses/$pkgname/LICENSE"
 }

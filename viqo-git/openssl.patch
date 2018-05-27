@@ -1,0 +1,58 @@
+diff --git a/src/NicoLiveManager/nicookie.cpp b/src/NicoLiveManager/nicookie.cpp
+index e2747a5..3f2725a 100644
+--- a/src/NicoLiveManager/nicookie.cpp
++++ b/src/NicoLiveManager/nicookie.cpp
+@@ -607,42 +607,44 @@ QString Nicookie::chromeDecrypt(const QByteArray &encrypt_data)
+   }
+ 
+   int result = 1;
+-  EVP_CIPHER_CTX ctx;
+-  EVP_CIPHER_CTX_init(&ctx);
++  EVP_CIPHER_CTX *ctx = EVP_CIPHER_CTX_new();
++  EVP_CIPHER_CTX_init(ctx);
+ 
+-  result = EVP_DecryptInit_ex(&ctx, EVP_aes_128_cbc(), NULL, enc_key, iv);
++  result = EVP_DecryptInit_ex(ctx, EVP_aes_128_cbc(), NULL, enc_key, iv);
+   if (!result) {
+     setError(Nicookie::FailedDecrytError);
+-    EVP_CIPHER_CTX_cleanup(&ctx);
++    EVP_CIPHER_CTX_cleanup(ctx);
+     free(plain_value);
+     return data;
+   }
+ 
+-  result = EVP_DecryptUpdate(&ctx,
++  result = EVP_DecryptUpdate(ctx,
+                              (unsigned char *)plain_value,
+                              &plain_value_size,
+                              (unsigned char *)(encrypt_data.data() + 3),
+                              encrypt_data.size() - 3);
+   if (!result) {
+     setError(Nicookie::FailedDecrytError);
+-    EVP_CIPHER_CTX_cleanup(&ctx);
++    EVP_CIPHER_CTX_cleanup(ctx);
+     free(plain_value);
+     return data;
+   }
+ 
+   int fin_size = 0;
+-  result = EVP_DecryptFinal_ex(&ctx,
++  result = EVP_DecryptFinal_ex(ctx,
+                                (unsigned char *)(plain_value +
+                                                  plain_value_size),
+                                &fin_size);
+   if (!result) {
+     setError(Nicookie::FailedDecrytError);
+-    EVP_CIPHER_CTX_cleanup(&ctx);
++    EVP_CIPHER_CTX_cleanup(ctx);
+     free(plain_value);
+     return data;
+   }
+ 
+-  EVP_CIPHER_CTX_cleanup(&ctx);
++  EVP_CIPHER_CTX_cleanup(ctx);
++
++  EVP_CIPHER_CTX_free(ctx);
+ 
+   plain_value[plain_value_size + fin_size] = '\0';
+   data = plain_value;
